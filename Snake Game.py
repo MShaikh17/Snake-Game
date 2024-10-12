@@ -25,12 +25,10 @@ class Food:
         self.state = "ON"
 
     def changelocation(self):
-        # I haven't programmed it to spawn outside the snake's body yet
         self.x = random.randint(0, 20) * 20 - 200
         self.y = random.randint(0, 20) * 20 - 200
 
     def drawself(self, turtle):
-        # similar to the Square drawself, but blinks on and off
         if self.state == "ON":
             turtle.goto(self.x - 9, self.y - 9)
             turtle.begin_fill()
@@ -46,7 +44,7 @@ class Food:
 
 class Snake:
     def __init__(self):
-        self.headposition = [20, 0]  # keeps track of where it needs to go next
+        self.headposition = [20, 0]  # keeps track of where the snake's head needs to go next
         self.body = [
             Square(-20, 0),
             Square(0, 0),
@@ -54,7 +52,7 @@ class Snake:
         ]  # body is a list of squares
         self.nextX = 1  # tells the snake which way it's going next
         self.nextY = 0
-        self.crashed = False  # I'll use this when I get around to collision detection
+        self.crashed = False
         self.nextposition = [
             self.headposition[0] + 20 * self.nextX,
             self.headposition[1] + 20 * self.nextY,
@@ -77,9 +75,9 @@ class Snake:
                 self.headposition[1] + 20 * self.nextY,
             ]
         else:
-            self.crashed = True  # more unsuccessful collision detection
-
-    def moveup(self):  # pretty obvious what these do
+            self.crashed = True
+# movement for the snake based on which arrow keys are pressed.
+    def moveup(self):
         self.nextX = 0
         self.nextY = 1
 
@@ -111,24 +109,24 @@ class Snake:
 
 class Game:
     def __init__(self):
-        # game object has a screen, a turtle, a basic snake and a food
+        # game object has a screen, a turtle, a basic snake and food
         self.screen = turtle.Screen()
         self.artist = turtle.Turtle()
         self.artist.up()
         self.artist.hideturtle()
         self.snake = Snake()
         self.food = Food(100, 0)
-        self.counter = 0  # this will be used later
-        self.commandpending = False  # as will this
+        self.counter = 0  
+        self.commandpending = False
 
     def nextFrame(self):
-        while True:  # now here's where it gets fiddly...
+        while True: 
             game.screen.listen()
             game.screen.onkey(game.snakedown, "Down")
             game.screen.onkey(game.snakeup, "Up")
             game.screen.onkey(game.snakeleft, "Left")
             game.screen.onkey(game.snakeright, "Right")
-            turtle.tracer(0)  # follow it so far?
+            turtle.tracer(0) 
             self.artist.clear()
             if self.counter == 5:
                 # only moves to next frame every 5 loops, this was an attempt to get rid of the turning delay
@@ -151,9 +149,8 @@ class Game:
             time.sleep(0.05)
 
     def snakeup(self):
-        print("going up")  # put this in for debugging purposes
+        print("going up")
         if not self.commandpending:
-            # should allow only one turn each frame; I don't think it's working
             self.snake.moveup()
             self.commandpending = True
 
