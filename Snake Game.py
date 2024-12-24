@@ -61,7 +61,6 @@ class Snake:
 
     def moveOneStep(self):
         if Square(self.nextposition[0], self.nextposition[1]) not in self.body:
-            # attempt (unsuccessful) at collision detection
             self.body.append(Square(self.nextposition[0], self.nextposition[1]))
             # moves the snake head to the next spot, deleting the tail
             del self.body[0]
